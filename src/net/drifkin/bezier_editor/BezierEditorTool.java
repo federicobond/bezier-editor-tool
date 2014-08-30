@@ -29,9 +29,12 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import processing.app.Editor;
+import processing.app.Language;
 import processing.app.tools.Tool;
 
 public class BezierEditorTool implements Tool, KeyListener {
+	private static final String DOMAIN = "net.drifkin.bezier_editor";
+
 	Editor editor;
 	JFrame frame;
 	BezierApplet bezierApplet;
@@ -119,7 +122,9 @@ public class BezierEditorTool implements Tool, KeyListener {
 	public void init(Editor editor) {
 		this.editor = editor;
 
-		frame = new JFrame("Bezier Editor");
+		Language.registerContribution(DOMAIN, this);
+
+		frame = new JFrame(Language.text("frame_title", DOMAIN));
 		frame.getContentPane().setLayout(new BorderLayout());
 
 		frame.addKeyListener(this);
@@ -170,10 +175,10 @@ public class BezierEditorTool implements Tool, KeyListener {
 						String text;
 						if (drawFill == false) {
 								drawFill = true;
-								text = "Hide fill";
+								text = Language.text("hide_fill", DOMAIN);
 						} else {
 								drawFill = false;
-								text = "Draw fill";
+								text = Language.text("draw_fill", DOMAIN);
 						}
 
 						bezierApplet.bezierEditor.setDrawFill(drawFill);
@@ -182,27 +187,27 @@ public class BezierEditorTool implements Tool, KeyListener {
 			}
 		};
 
-		fillButton = new JButton("Draw fill");
+		fillButton = new JButton(Language.text("button.draw_fill", DOMAIN));
 		fillButton.addActionListener(actionListener);
 
-		penButton = new JToggleButton("Draw (d)", true);
+		penButton = new JToggleButton(Language.text("button.draw", DOMAIN), true);
 		penButton.addActionListener(actionListener);
 		penButton.getModel().setEnabled(false);
 		//penButton.setActionCommand("penButton");
 
-		selectorButton = new JToggleButton("Select Point (s)", false);
+		selectorButton = new JToggleButton(Language.text("button.select_point", DOMAIN), false);
 		selectorButton.addActionListener(actionListener);
 
 
-		splineSelectorButton = new JToggleButton("Select Curve (c)", false);
+		splineSelectorButton = new JToggleButton(Language.text("button.select_curve", DOMAIN), false);
 		splineSelectorButton.addActionListener(actionListener);
 
-		panButton = new JToggleButton("Pan Screen (a)", false);
+		panButton = new JToggleButton(Language.text("button.pan_screen", DOMAIN), false);
 		panButton.addActionListener(actionListener);
 
 
 		// set up the keyboard shortcuts for the buttons
-		String SHORTCUT_ACTION_KEY = "Shortcut Action";
+		String SHORTCUT_ACTION_KEY = Language.text("button.shortcut_action", DOMAIN);
 
 		penButton.getActionMap().put(SHORTCUT_ACTION_KEY,
 			new AbstractAction() {
@@ -278,7 +283,7 @@ public class BezierEditorTool implements Tool, KeyListener {
 
 
 		actionBox.add(Box.createHorizontalGlue());
-		generateCodeButton = new JButton("Copy code to clipboard");
+		generateCodeButton = new JButton(Language.text("button.copy_code_to_clipboard", DOMAIN));
 		actionBox.add(generateCodeButton);
 
 		generateCodeButton.addActionListener(actionListener);
@@ -330,7 +335,7 @@ public class BezierEditorTool implements Tool, KeyListener {
 	}
 
 	public String getMenuTitle() {
-			return "Bezier Editor";
+			return Language.text("menu_title", DOMAIN);
 	}
 
 	public void run() {
